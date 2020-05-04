@@ -1,28 +1,69 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">        
+    <tool-bar></tool-bar>
+    <transition name="routing-fade" mode="out-in">
+      <router-view></router-view>
+    </transition>
+    <spinner v-bind:loading="loadingStatus"></spinner>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import ToolBar from './components/ToolBar.vue';
+import Spinner from './components/Spinner.vue';
+import bus from './utils/bus.js';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  components:{
+    ToolBar,
+    Spinner,
+  },
+  data(){
+    return {
+      loadingStatus:false,
+    };
+  },
+  methods:{
+    startSpinner(){
+      this.loadingStatus=true;
+    },
+    endSpinner(){
+      this.loadingStatus=false;
+    }
+  },
+  created(){
+    bus.$on('start:spinner',this.startSpinner);
+    bus.$on('end:spinner',this.endSpinner);
+  },
+  beforeDestroy(){
+    bus.$off('start:spinner',this.startSpinner);
+    bus.$off('end:spinner',this.endSpinner);
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+body{
+  padding:0;
+  margin:0;
+}
+a {
+  color: #34495e;
+  text-decoration: none;
+}
+a:hover {
+  color: #42b883;
+  text-decoration: underline;
+}
+a.router-link-active {
+  text-decoration: underline;
+}
+
+/* Router Transition */
+.routing-fade-enter-active, .routing-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.routing-fade-enter, .routing-fade-leave-to
+/* .routing-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 </style>
