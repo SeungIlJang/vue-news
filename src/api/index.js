@@ -17,8 +17,12 @@ const fetchJobsList = () => {
     return axios.get(`${config.baseUrl}/jobs/1.json`);    
 }
 
-const fetchList = (pageName) => {
-    return axios.get(`${config.baseUrl}/${pageName}/1.json`);    
+const fetchList = async (pageName) => {
+    try{
+        return await axios.get(`${config.baseUrl}/${pageName}/1.json`);    
+    }catch(error){
+        console.log(error);
+    }
 }
 
 const fetchUser = (userName) => {

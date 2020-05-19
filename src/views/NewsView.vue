@@ -26,11 +26,15 @@
 import ListItem from '../components/ListItem.vue';
 // import bus from '../utils/bus.js';
 import ListMixin from '../mixins/ListMixin.js';
+
 export default {
     components:{
         ListItem,
     },
     mixins: [ListMixin],
+    // mounted() {
+    //     bus.$emit('end:spinner');
+    // },
     //Lifecycle Hook - created,mounted
     //HOC사용하면 주석처리 HOC에서 호출해줌
     // created(){
